@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from venuez import views 
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('profile/', views.shop_list, name="profile"),
+    path('venue/create/', views.venue_create, name="venue-create"),
+    path('booking/create/', views.booking_create, name="booking-create"),
+    path('venue/<int:venue_id>/detail/', views.venue_detail ,name='venue-detail'),
+
 ]
+urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
