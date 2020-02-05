@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} owner {% endblock title %}
+
+{% block content %}
+<form action="{% url 'customer-create' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" value="Create Profile" class="btn btn-outline-success">
+</form>
+
+{% endblock content %}

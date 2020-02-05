@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Profile, Venue, Booking, Venue_Img, Rating 
-from .forms import OwnerProfileForm, CustomerProfileForm, VenueForm, BookingForm, Venue_ImgForm, RatingForm
+from .forms import OwnerProfileForm, CustomerProfileForm, VenueForm, BookingForm, Venue_ImgForm, RatingForm, UserRegister
+from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 
@@ -61,20 +62,20 @@ def venue_create(request):
         form = VenueForm(request.POST, request.FILES)
         if form.is_valid():
             venue = form.save(commit=False)
-            venue.owner = request.user
+            venue.owner.user = request.user
             venue.save()
             return redirect('venue-list')
     context = {
         "form":form,
     }
-    return render(request, 'venue-create.html', context)
+    return render(request, 'venue_create.html', context)
 
 def venue_detail(request, venue_id):
     venue=Venue.objects.get(id=venue_id)
     context = {
         "venue":venue ,
     }
-    return render(request, 'venue-detail.html', context)
+    return render(request, 'venue_detail.html', context)
 
 def venue_update(request, venue_id):
     venue_obj = Venue.objects.get(id=venue_id)
@@ -100,10 +101,10 @@ def booking_delete(request, booking_id):
     booking_obj.delete()
     return redirect('booking-list')
 
-def signup(request):
-    form = SignupForm()
+def signup_owner(request):
+    form = UserRegister()
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = UserRegister(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
 
@@ -111,11 +112,58 @@ def signup(request):
             user.save()
 
             login(request, user)
-            return redirect("restaurant-list")
+            return redirect("owner-create")
     context = {
         "form":form,
     }
-    return render(request, 'signup.html', context)
+    return render(request, 'owner_profile.html', context)
+
+def owner_create(request):
+    form = OwnerProfileForm()
+    if request.method == "POST":
+        form = OwnerProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            owner = form.save(commit=False)
+            owner.user = request.user
+            owner.user_type = 'Owner'
+            owner.save()
+            return redirect('owner_profile')
+    context = {
+        "form":form,
+    }
+    return render(request, 'owner_create.html', context)
+
+def signup_customer(request):
+    form = UserRegister()
+    if request.method == 'POST':
+        form = UserRegister(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+
+            user.set_password(user.password)
+            user.save()
+
+            login(request, user)
+            return redirect("customer-create")
+    context = {
+        "form":form,
+    }
+    return render(request, 'signup_customer.html', context)
+
+def customer_create(request):
+    form = CustomerProfileForm()
+    if request.method == "POST":
+        form = CustomerProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.user = request.user
+            customer.user_type = 'Customer'
+            customer.save()
+            return redirect('home')
+    context = {
+        "form":form,
+    }
+    return render(request, 'customer_create.html', context)
 
 def signin(request):
     form = SigninForm()
@@ -138,4 +186,12 @@ def signin(request):
 def signout(request):
     logout(request)
     return redirect("signin")
-    
+
+def home(request):
+    return render(request, "home.html")
+
+def profile_owner(request):
+    context = {
+        "profile_owner":ProfileOwner.objects.all()
+    }
+    return render(request, 'owner_profile.html', context)

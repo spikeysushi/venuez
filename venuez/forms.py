@@ -5,22 +5,22 @@ from django.contrib.auth.models import User
 class RatingForm(forms.ModelForm): 
     class Meta:
         model = Rating
-        fields = '__all__'
+        exclude = ['customer', 'booking','venue']
 
 class OwnerProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ['user','civilID']
+        exclude = ['user','civilID', 'user_type']
 
 class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ['user','paci_no']
+        exclude = ['user','paci_no','user_type']
 
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['customer', 'venue', 'reservation', 'comments']
+        fields = [ 'venue', 'reservation', 'comments']
         widgets = {
             'reservation': forms.DateInput(attrs={'type':'date'}),
         }
@@ -28,7 +28,7 @@ class BookingForm(forms.ModelForm):
 class Venue_ImgForm(forms.ModelForm):
     class Meta:
         model = Venue_Img
-        fields = ['venue', 'image']
+        fields = ['image']
 
 
 class VenueForm(forms.ModelForm):
@@ -36,3 +36,11 @@ class VenueForm(forms.ModelForm):
         model = Venue
         exclude = ['owner']
 
+class UserRegister(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email' ,'password']
+
+        widgets={
+        'password': forms.PasswordInput(),
+        }

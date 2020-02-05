@@ -23,10 +23,16 @@ from venuez import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('profile/', views.shop_list, name="profile"),
+    path('', views.home, name="home"), 
     path('venue/create/', views.venue_create, name="venue-create"),
     path('booking/create/', views.booking_create, name="booking-create"),
     path('venue/<int:venue_id>/detail/', views.venue_detail ,name='venue-detail'),
-
+    path('owner/create/', views.owner_create, name="owner-create"),
+    path('owner/signup/', views.signup_owner, name="signup-owner"),
+    path('owner/profile/', views.profile_owner, name="profile-owner"),
+    path('customer/create/', views.customer_create, name="customer-create"),
+    path('customer/signup/', views.signup_customer, name="signup-customer"),
+    
 ]
 urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
