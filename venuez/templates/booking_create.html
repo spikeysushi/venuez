@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Book Venue{% endblock title %}
+{% block content %}
+<br>
+<h1>Booking Creation</h1>
+<div class="card">
+    <h5 class="card-header">Book Venue</h5>
+    <div class="card-body">
+        <p class="card-text">
+            <form action="{% url 'booking-create' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form|crispy}}
+                <input type="submit" value="Book" class="btn btn-outline-success">
+            </form>
+        </p>
+    </div>
+</div>
+{% endblock content %}

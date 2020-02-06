@@ -32,7 +32,8 @@ urlpatterns = [
     path('owner/profile/', views.profile_owner, name="profile-owner"),
     path('customer/create/', views.customer_create, name="customer-create"),
     path('customer/signup/', views.signup_customer, name="signup-customer"),
-    
+    path('booking/<int:venue_id>/create/', views.booking_create, name="booking-create"),
+    path('signin/', views.signin, name="signin"),
 ]
 urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

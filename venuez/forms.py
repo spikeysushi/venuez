@@ -1,7 +1,7 @@
 from django import forms
 from .models import Profile, Venue, Booking, Venue_Img, Rating 
 from django.contrib.auth.models import User
-
+from django.contrib.admin import widgets
 class RatingForm(forms.ModelForm): 
     class Meta:
         model = Rating
@@ -17,13 +17,19 @@ class CustomerProfileForm(forms.ModelForm):
         model = Profile
         exclude = ['user','paci_no','user_type']
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class BookingForm(forms.ModelForm):
+    reservation = forms.DateField(widget=widgets.AdminDateWidget())
     class Meta:
         model = Booking
         fields = [ 'venue', 'reservation', 'comments']
-        widgets = {
-            'reservation': forms.DateInput(attrs={'type':'date'}),
-        }
+        # widgets = {
+        #     'reservation': forms.DateInput(attrs = {
+        #         'class': 'datepicker'
+        #     })
+        # }
 
 class Venue_ImgForm(forms.ModelForm):
     class Meta:
@@ -44,3 +50,7 @@ class UserRegister(forms.ModelForm):
         widgets={
         'password': forms.PasswordInput(),
         }
+
+class SigninForm(forms.Form):
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True, widget=forms.PasswordInput())

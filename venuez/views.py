@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Profile, Venue, Booking, Venue_Img, Rating 
-from .forms import OwnerProfileForm, CustomerProfileForm, VenueForm, BookingForm, Venue_ImgForm, RatingForm, UserRegister
+from .forms import OwnerProfileForm, CustomerProfileForm, VenueForm, BookingForm, Venue_ImgForm, RatingForm, UserRegister, SigninForm
 from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
@@ -18,7 +18,7 @@ def rating_create(request):
     return render(request, 'venue.html', context)
 
 def booking_create(request, venue_id):
-    venue_obj = Venue.objects.get(id=venue_id)
+    venue = Venue.objects.get(id=venue_id)
     form = BookingForm()
     if  request.method == "POST":
         form = BookingForm(request.POST)
@@ -27,11 +27,11 @@ def booking_create(request, venue_id):
             booking.venue = venue
             booking.save()
             return redirect('venue-detail', venue_id)
-        context = {
-            "form":form,
-            "venue": venue
-        }
-        return render(request, 'booking.html', context)
+    context = {
+        "form":form,
+        "venue":venue
+    }
+    return render(request, 'booking_create.html', context)
 
 def venue_img_create(request, venue_id):
     venue_obj = Venue.objects.get(id=venue_id)
