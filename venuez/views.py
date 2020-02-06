@@ -11,11 +11,11 @@ def rating_create(request):
         form = RatingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('venue')
+            return redirect('venue-list')
     context = {
         "form":form,
     }
-    return render(request, 'venue.html', context)
+    return render(request, 'rating_create.html', context)
 
 def booking_create(request, venue_id):
     venue = Venue.objects.get(id=venue_id)
@@ -54,21 +54,27 @@ def venue_list(request):
         "venues":Venue.objects.all()
     }
     
-    return render(request, 'list.html', context)
+    return render(request, 'venue_list.html', context)
 
 def venue_create(request):
+    profile = Profile.objects.get(user=request.user)
+    if profile.user_type == "Customer":
+        return redirect('no-access')
     form = VenueForm()
     if request.method == "POST":
         form = VenueForm(request.POST, request.FILES)
         if form.is_valid():
             venue = form.save(commit=False)
-            venue.owner.user = request.user
+            venue.owner=profile
             venue.save()
             return redirect('venue-list')
     context = {
         "form":form,
     }
     return render(request, 'venue_create.html', context)
+
+def no_access(request):
+    return render(request,'no_access.html')
 
 def venue_detail(request, venue_id):
     venue=Venue.objects.get(id=venue_id)
@@ -84,7 +90,7 @@ def venue_update(request, venue_id):
         form = VenueForm(request.POST, request.FILES, instance=venue_obj)
         if form.is_valid():
             form.save()
-            return redirect('venue-list')
+            return redirect('venue-detail', venue_obj.id)
     context = {
         "venue_obj": venue_obj,
         "form":form,
@@ -116,7 +122,7 @@ def signup_owner(request):
     context = {
         "form":form,
     }
-    return render(request, 'owner_profile.html', context)
+    return render(request, 'signup_owner.html', context)
 
 def owner_create(request):
     form = OwnerProfileForm()
@@ -125,9 +131,9 @@ def owner_create(request):
         if form.is_valid():
             owner = form.save(commit=False)
             owner.user = request.user
-            owner.user_type = 'Owner'
+            owner.user_type = 'OWNER'
             owner.save()
-            return redirect('owner_profile')
+            return redirect('home')
     context = {
         "form":form,
     }
@@ -157,7 +163,7 @@ def customer_create(request):
         if form.is_valid():
             customer = form.save(commit=False)
             customer.user = request.user
-            customer.user_type = 'Customer'
+            customer.user_type = 'CUSTOMER'
             customer.save()
             return redirect('home')
     context = {
@@ -177,7 +183,7 @@ def signin(request):
             auth_user = authenticate(username=username, password=password)
             if auth_user is not None:
                 login(request, auth_user)
-                return redirect('home.html')
+                return redirect('home')
     context = {
         "form":form
     }
@@ -185,13 +191,39 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    return redirect("signin")
+    return redirect("home")
 
 def home(request):
     return render(request, "home.html")
 
 def profile_owner(request):
+    profile=Profile.objects.get(user=request.user)
+    venues = Venue.objects.filter(owner=profile)
     context = {
-        "profile_owner":ProfileOwner.objects.all()
+        "profile" : profile,
+        "venues":venues
     }
     return render(request, 'owner_profile.html', context)
+
+def profile_customer(request):
+    context = {
+        "profile":Profile.objects.get(user=request.user)
+    }
+    return render(request, 'customer_profile.html', context)
+
+def venue_img_create(request, venue_id):
+    venue = Venue.objects.get(id=venue_id)
+    form = Venue_ImgForm()
+    if request.method == "POST":
+        form = Venue_ImgForm(request.POST,request.FILES)
+        if form.is_valid():
+            img = form.save(commit=False)
+            img.venue = venue
+            img.save()
+            #Make sure the url name is venue-detail
+            return redirect('venue-detail', venue_id)
+    context = {
+        "from": form,
+        "venue":venue
+    }
+    return render(request, venue_img_create.html,context)

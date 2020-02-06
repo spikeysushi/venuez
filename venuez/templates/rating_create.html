@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} {% endblock title %}
+
+{% block content %}
+<div class="jumbotron m-5">
+
+    <form action="{% url 'rating-create' %}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            {% csrf_token %}
+            {{form|crispy}}
+        </div>
+        <input type="submit" value="Create" class="btn btn-outline-success">
+    </form>
+</div>
+
+{% endblock content %}

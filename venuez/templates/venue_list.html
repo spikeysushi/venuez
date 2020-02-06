@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}List{% endblock title %}
+
+{% block content %}
+<br>
+<div class="row">
+    {% for venue in venues %}
+    <div class="col-md-4">
+        <div class="card my-card">
+            {% if venue.logo %}
+            <img class="card-img-top" src="{{venue.logo.url}}" alt="...">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{venue.name}}</h5>
+                <p class="card-text">{{venue.description|truncatechars:25}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-center">
+                    <a href="{% url 'venue-detail' venue.id %}" class="btn btn-outline-dark">View</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

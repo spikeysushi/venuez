@@ -2,10 +2,33 @@ from django import forms
 from .models import Profile, Venue, Booking, Venue_Img, Rating 
 from django.contrib.auth.models import User
 from django.contrib.admin import widgets
+
 class RatingForm(forms.ModelForm): 
+    star = forms.TextInput( attrs = {
+     'class':'form-control-range',
+     'style':'color: red',
+     'id':'formControlRange',
+     'type':'range'
+    })
     class Meta:
         model = Rating
-        exclude = ['customer', 'booking','venue']
+        fields = ['star', 'comment']
+        labels = {
+            'star': 'Stars',
+            'comment': "What do you think of your experience?"
+        }
+
+# class RatingForm(forms.Form):
+#     start = forms.CharField(widget=forms.TextInput( attrs = {
+#      'class':'form-control-range',
+#      'id':'formControlRange',
+#      'type':'range',
+#       'min':"1" ,
+#       'max':"5",
+#       'step':"1"
+
+#     }))
+#     comment = forms.CharField(widget=forms.TextInput())
 
 class OwnerProfileForm(forms.ModelForm):
     class Meta:

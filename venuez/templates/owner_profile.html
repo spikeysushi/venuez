@@ -1,13 +1,43 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-
-{% block title %} {% endblock title %}
-
+{% block title %}Venue{% endblock title %}
 {% block content %}
-<form action="{% url 'owner-create' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form|crispy}}
-    <input type="submit" value="Create" class="btn btn-outline-success">
-</form>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">Personal Info</h5>
+                {% if profile.profile_picture %}
+                <img class="card-img-top" height="300px" src="{{profile.profile_picture.url}}" alt="...">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{profile.usertype}}</h5>
+                    <p class="card-text">Paci number: {{profile.paci_no}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% for venue in venues %}
+        <div class="card" style="width: 18rem;">
 
+            <div class="card-body">
+                <p class="card-text">Description: {{venue.description}}</p>
+                <p>Price: {{venue.price_per_day}}</p>
+                <a href="{% url 'venue-detail' venue.id %}" class="btn btn-outline-success">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col">
+            <a href="{% url 'venue-create' %}" class="btn btn-success">
+                Add New Venue
+            </a>
+        </div>
+    </div>
+
+
+
+</div>
 {% endblock content %}
