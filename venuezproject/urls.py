@@ -42,7 +42,8 @@ urlpatterns = [
     path('rating/<int:venue_id>/create/', views.rating_create, name="rating-create"),
     path('customer/profile/', views.profile_customer, name="profile-customer"),
     path('no-access/', views.no_access, name="no-access"),
-    path('profile', views.which_profile, name="profile")
+    path('profile', views.which_profile, name="profile"),
+    
 ]
 urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

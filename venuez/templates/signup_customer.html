@@ -4,10 +4,13 @@
 {% block title %} {% endblock title %}
 
 {% block content %}
-<form action="{% url 'signup-customer' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form|crispy}}
-    <input type="submit" value="Create" class="btn btn-outline-success">
-</form>
+
+<div class="container" style="margin-top: 150px;">
+    <form action="{% url 'signup-customer' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="Create" class="btn btn-outline-success">
+    </form>
+</div>
 
 {% endblock content %}

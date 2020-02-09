@@ -3,6 +3,38 @@
 Home
 {% endblock title%}
 {% block content %}
-<h1>Homies Page Gangstaaaazzzzzz Hashtag yolo</h1>
-<h2>K Dawg in da Haws!</h2>
+<!--/ Carousel Star /-->
+<div class="intro intro-carousel">
+    <div id="carousel" class="owl-carousel owl-theme">
+        {% for image in images %}
+        <div class="carousel-item-a intro-item bg-image" style="background-image: url({{image.image.url}})">
+            <div class="overlay overlay-a"></div>
+            <div class="intro-content display-table">
+                <div class="table-cell">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="intro-body">
+                                    <p class="intro-title-top">{{image.venue.location}}
+                                        <h1 class="intro-title mb-4">
+
+                                            {{image.venue.name}}</h1>
+                                        <p class="intro-subtitle intro-price">
+                                            <a href="{% url 'venue-detail' image.venue.id %}"><span
+                                                    class="price-a">Price
+                                                    per day | KWD
+                                                    {{image.venue.price_per_day}}</span></a>
+                                        </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+<!--/ Carousel end /-->
 {% endblock content%}

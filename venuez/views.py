@@ -89,8 +89,10 @@ def no_access(request):
 
 def venue_detail(request, venue_id):
     venue=Venue.objects.get(id=venue_id)
+    venue_images = Venue_Img.objects.filter(venue=venue)
     context = {
         "venue":venue ,
+        "images":venue_images
     }
     return render(request, 'venue_detail.html', context)
 
@@ -205,7 +207,10 @@ def signout(request):
     return redirect("home")
 
 def home(request):
-    return render(request, "home.html")
+    context = {
+        "images":Venue_Img.objects.all()
+    }
+    return render(request, "home.html",context)
 
 def profile_owner(request):
     profile=Profile.objects.get(user=request.user)
