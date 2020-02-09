@@ -1,13 +1,18 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
-
-{% block title %} {% endblock title %}
-
+{% block title %}Venue{% endblock title %}
 {% block content %}
-<form action="{% url 'customer-create' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form|crispy}}
-    <input type="submit" value="Create" class="btn btn-outline-success">
-</form>
+<br>
+<div class="card">
+    <h5 class="card-header">venue Info</h5>
+    {% if venue.logo %}
+    <img class="card-img-top" src="{{venue.logo.url}}" alt="...">
+    {% endif %}
+    <div class="card-body">
+        <h5 class="card-title">{{venue.name}}</h5>
+        <p class="card-text">{{venue.description|linebreaks}}</p>
+        <p class="card-text">Location: {{venue.location}}</p>
+        <p class="card-text">Price per day: {{venue.price_per_day}}</p>
+        <p class="card-text">Capacity: {{venue.capacity}}</p>
+    </div>
 
-{% endblock content %}
+    {% endblock content %}

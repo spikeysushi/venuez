@@ -18,6 +18,9 @@
             {% else %}
             No
             {% endif %}
+            <a href="{% url 'booking-create' venue.id %}" class="btn btn-outline-danger btn-block">Book</a>
+            <a href="{% url 'rating-create' venue.id %}" class="btn btn-outline-danger btn-block">Rate Your
+                Experience</a>
         </p>
         <div class="row text-center">
             {% if venue.owner.user == request.user %}
@@ -27,8 +30,10 @@
             <div class="col-md-6">
                 <a href="{% url 'venue-delete' venue.id %}" class="btn btn-outline-danger btn-block">Delete</a>
             </div>
+            <div class="col-md-6">
+                <a href="{% url 'venue-img' venue.id %}" class="btn btn-outline-danger btn-block">Add Image</a>
+            </div>
             {% endif %}
-
         </div>
     </div>
 </div>

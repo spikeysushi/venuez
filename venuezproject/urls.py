@@ -30,6 +30,7 @@ urlpatterns = [
     path('venue/<int:venue_id>/detail/', views.venue_detail ,name='venue-detail'),
     path('venue/<int:venue_id>/update/', views.venue_update ,name='venue-update'),
     path('venue/<int:venue_id>/delete/', views.venue_delete ,name='venue-delete'),
+    path('venue/<int:venue_id>/image/', views.venue_img_create ,name='venue-img'),
     path('owner/create/', views.owner_create, name="owner-create"),
     path('owner/signup/', views.signup_owner, name="signup-owner"),
     path('signout/', views.signout, name="signout"),
@@ -38,9 +39,10 @@ urlpatterns = [
     path('customer/signup/', views.signup_customer, name="signup-customer"),
     path('booking/<int:venue_id>/create/', views.booking_create, name="booking-create"),
     path('signin/', views.signin, name="signin"),
-    path('rating/create/', views.rating_create, name="rating-create"),
+    path('rating/<int:venue_id>/create/', views.rating_create, name="rating-create"),
     path('customer/profile/', views.profile_customer, name="profile-customer"),
     path('no-access/', views.no_access, name="no-access"),
+    path('profile', views.which_profile, name="profile")
 ]
 urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

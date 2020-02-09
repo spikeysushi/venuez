@@ -5,15 +5,26 @@ from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 
-def rating_create(request):
+def which_profile(request):
+    profile = Profile.objects.get(user= request.user)
+    if profile.user_type == "OWNER":
+        return redirect('owner-profile')
+    else:
+        return redirect('profile-customer')
+
+def rating_create(request, venue_id):
+    venue = Venue.objects.get(id=venue_id)
     form = RatingForm()
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
-            form.save()
+            rating = form.save(commit=False)
+            rating.venue = venue
+            rating.save()
             return redirect('venue-list')
     context = {
         "form":form,
+        "venue":venue
     }
     return render(request, 'rating_create.html', context)
 
@@ -34,7 +45,7 @@ def booking_create(request, venue_id):
     return render(request, 'booking_create.html', context)
 
 def venue_img_create(request, venue_id):
-    venue_obj = Venue.objects.get(id=venue_id)
+    venue = Venue.objects.get(id=venue_id)
     form = Venue_ImgForm()
     if request.method == "POST":
         form = Venue_ImgForm(request.POST)
@@ -47,7 +58,7 @@ def venue_img_create(request, venue_id):
         "form":form,
         "venue": venue
     }
-    return render(request, 'venue_img.html', context)
+    return render(request, 'venue_img_create.html', context)
 
 def venue_list(request):
     context = {
@@ -211,19 +222,19 @@ def profile_customer(request):
     }
     return render(request, 'customer_profile.html', context)
 
-def venue_img_create(request, venue_id):
-    venue = Venue.objects.get(id=venue_id)
-    form = Venue_ImgForm()
-    if request.method == "POST":
-        form = Venue_ImgForm(request.POST,request.FILES)
-        if form.is_valid():
-            img = form.save(commit=False)
-            img.venue = venue
-            img.save()
-            #Make sure the url name is venue-detail
-            return redirect('venue-detail', venue_id)
-    context = {
-        "from": form,
-        "venue":venue
-    }
-    return render(request, venue_img_create.html,context)
+# def venue_img_create(request, venue_id):
+#     venue = Venue.objects.get(id=venue_id)
+#     form = Venue_ImgForm()
+#     if request.method == "POST":
+#         form = Venue_ImgForm(request.POST,request.FILES)
+#         if form.is_valid():
+#             img = form.save(commit=False)
+#             img.venue = venue
+#             img.save()
+#             #Make sure the url name is venue-detail
+#             return redirect('venue-detail', venue_id)
+#     context = {
+#         "from": form,
+#         "venue":venue
+#     }
+#     return render(request, venue_img_create.html,context)
