@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'venuez',
     'crispy_forms',
-    'bootstrap_datepicker'
+    'bootstrap_datepicker',
+    
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

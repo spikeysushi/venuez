@@ -2,8 +2,9 @@
 {% block title %}Venue{% endblock title %}
 {% block content %}
 <br>
+<div class="container" style="margin-top: 150px;"></div>
 <div class="card">
-    <h5 class="card-header">venue Info</h5>
+    <h5 class="card-header">{{request.user.first_name}} {{request.user.last_name}}'s Profile</h5>
     {% if venue.logo %}
     <img class="card-img-top" src="{{venue.logo.url}}" alt="...">
     {% endif %}

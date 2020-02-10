@@ -37,4 +37,52 @@ Home
     </div>
 </div>
 <!--/ Carousel end /-->
+<!--/ Testimonials Star /-->
+<section class="section-testimonials section-t8 nav-arrow-a">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title-wrap d-flex justify-content-between">
+                    <div class="title-box">
+                        <h2 class="title-a">Testimonials</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="testimonial-carousel" class="owl-carousel owl-arrow">
+            {% for rating in ratings %}
+
+            <div class="carousel-item-a mb-5">
+                <div class="testimonials-box">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="testimonial-img">
+                                <img src="{{rating.customer.profile_picture.url}}" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="testimonial-ico">
+                                <span class="ion-ios-quote"></span>
+                            </div>
+                            <div class="testimonials-content">
+                                <p class="testimonial-text">
+                                    {{rating.comment}}
+                                </p>
+                            </div>
+                            <div class="testimonial-author-box">
+
+                                <h5 class="testimonial-author">{{rating.customer.user.first_name}}
+                                    {{rating.customer.user.last_name}} - {{rating.venue.name}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+<!--/ Testimonials End /-->
 {% endblock content%}

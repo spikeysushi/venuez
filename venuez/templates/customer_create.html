@@ -4,6 +4,7 @@
 {% block title %} owner {% endblock title %}
 
 {% block content %}
+<div class="container" style="margin-top: 150px;"></div>
 <form action="{% url 'customer-create' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{form|crispy}}

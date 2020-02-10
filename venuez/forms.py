@@ -44,15 +44,13 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class BookingForm(forms.ModelForm):
-    reservation = forms.DateField(widget=widgets.AdminDateWidget())
+    # reservation = forms.DateField(widget=widgets.AdminDateWidget())
     class Meta:
         model = Booking
-        fields = [ 'venue', 'reservation', 'comments']
-        # widgets = {
-        #     'reservation': forms.DateInput(attrs = {
-        #         'class': 'datepicker'
-        #     })
-        # }
+        fields = [ 'reservation', 'comments']
+        widgets = {
+            'reservation': forms.DateInput(attrs={"type":"date"})
+        }
 
 class Venue_ImgForm(forms.ModelForm):
     class Meta:

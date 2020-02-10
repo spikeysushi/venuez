@@ -14,12 +14,14 @@ def which_profile(request):
 
 def rating_create(request, venue_id):
     venue = Venue.objects.get(id=venue_id)
+    profile = Profile.objects.get(user=request.user)
     form = RatingForm()
     if request.method == "POST":
         form = RatingForm(request.POST)
         if form.is_valid():
             rating = form.save(commit=False)
             rating.venue = venue
+            rating.customer = profile
             rating.save()
             return redirect('venue-list')
     context = {
@@ -29,6 +31,8 @@ def rating_create(request, venue_id):
     return render(request, 'rating_create.html', context)
 
 def booking_create(request, venue_id):
+    if not request.user.is_authenticated :
+        return redirect('signin')
     venue = Venue.objects.get(id=venue_id)
     form = BookingForm()
     if  request.method == "POST":
@@ -46,9 +50,10 @@ def booking_create(request, venue_id):
 
 def venue_img_create(request, venue_id):
     venue = Venue.objects.get(id=venue_id)
+    images = Venue_Img.objects.filter(venue=venue)
     form = Venue_ImgForm()
     if request.method == "POST":
-        form = Venue_ImgForm(request.POST)
+        form = Venue_ImgForm(request.POST, request.FILES)
         if form.is_valid():
             venue_img = form.save(commit=False)
             venue_img.venue = venue
@@ -56,7 +61,8 @@ def venue_img_create(request, venue_id):
             return redirect('venue-detail', venue_id)
     context = {
         "form":form,
-        "venue": venue
+        "venue": venue,
+        "images":images
     }
     return render(request, 'venue_img_create.html', context)
 
@@ -114,6 +120,12 @@ def venue_delete(request, venue_id):
     venue_obj = venue.objects.get(id=venue_id)
     venue_obj.delete()
     return redirect('venue-list')
+
+def venue_img_delete(request, image_id):
+    image = Venue_Img.objects.get(id=image_id)
+    venue = Venue.objects.get(id=image.venue.id)
+    image.delete()
+    return redirect('venue-detail', venue.id)
 
 def booking_delete(request, booking_id):
     booking_obj = booking.objects.get(id=booking_id)
@@ -208,7 +220,8 @@ def signout(request):
 
 def home(request):
     context = {
-        "images":Venue_Img.objects.all()
+        "images":Venue_Img.objects.all(),
+        "ratings": Rating.objects.all()[:3]
     }
     return render(request, "home.html",context)
 
@@ -226,6 +239,20 @@ def profile_customer(request):
         "profile":Profile.objects.get(user=request.user)
     }
     return render(request, 'customer_profile.html', context)
+
+def contact(request):
+    context = {
+        "images":Venue_Img.objects.all(),
+        "ratings": Rating.objects.all()[:3]
+    }
+    return render(request, "contact.html",context)
+
+def about(request):
+    context = {
+        "images":Venue_Img.objects.all(),
+        "ratings": Rating.objects.all()[:3]
+    }
+    return render(request, "about.html",context)
 
 # def venue_img_create(request, venue_id):
 #     venue = Venue.objects.get(id=venue_id)

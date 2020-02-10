@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+
 {% block title %} {% endblock title %}
 
 {% block content %}
+<div class="container" style="margin-top: 150px;"></div>
 <div class="jumbotron m-5">
+    <h1>Rate Your Time</h1>
+
 
     <form action="{% url 'rating-create' venue.id %}" method="POST" enctype="multipart/form-data">
         <div class="form-group">

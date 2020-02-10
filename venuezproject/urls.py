@@ -43,6 +43,10 @@ urlpatterns = [
     path('customer/profile/', views.profile_customer, name="profile-customer"),
     path('no-access/', views.no_access, name="no-access"),
     path('profile', views.which_profile, name="profile"),
+    path('contact/', views.contact, name="contact"),
+    path('about/', views.about, name="about"),
+    path('image/<int:image_id>/delete/', views.venue_img_delete, name='venue-img-delete'),
+    
     
 ]
 urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

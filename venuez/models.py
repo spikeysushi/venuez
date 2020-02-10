@@ -49,7 +49,6 @@ class Venue_Img(models.Model):
 
 class Rating(models.Model):
     customer = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
     star =  models.IntegerField()
     comment = models.TextField()
