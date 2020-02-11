@@ -39,6 +39,9 @@ class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ['user','paci_no','user_type']
+        labels={
+            'civilID': "Civil ID"
+        }
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -56,6 +59,10 @@ class Venue_ImgForm(forms.ModelForm):
     class Meta:
         model = Venue_Img
         fields = ['image']
+        widgets ={
+            'image': forms.FileInput(attrs={"class":"btn btn-success","style":"width:250px"})
+        }
+
 
 
 class VenueForm(forms.ModelForm):

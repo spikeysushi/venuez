@@ -5,18 +5,23 @@
 {% block title %} {% endblock title %}
 
 {% block content %}
-<div class="container" style="margin-top: 150px;"></div>
-<div class="jumbotron m-5">
-    <h1>Rate Your Time</h1>
+<div class="container" style="margin-top: 150px;">
+    <div class="card">
+        <h5 class="card-header">Rate The Venue</h5>
+        <div class="card-body">
+            <p class="card-text">
+                <!-- <div class="container" style="margin-top: 150px;"></div>
+<div class="jumbotron m-5"> -->
 
 
-    <form action="{% url 'rating-create' venue.id %}" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-            {% csrf_token %}
-            {{form|crispy}}
+                <form action="{% url 'rating-create' venue.id %}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                    </div>
+                    <input type="submit" value="Create" class="btn btn-outline-success">
+                </form>
         </div>
-        <input type="submit" value="Create" class="btn btn-outline-success">
-    </form>
+    </div>
 </div>
-
 {% endblock content %}

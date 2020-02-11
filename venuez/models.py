@@ -13,7 +13,7 @@ class Profile(models.Model):
     ]
     user = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=8, choices=USER_TYPES, default='NONE' )
-    paci_no = models.CharField(max_length=12, blank=True,null=True)
+    paci_no = models.CharField(max_length=7, blank=True,null=True)
     civilID = models.CharField(max_length=12, blank=True, null=True)
     profile_picture = models.ImageField(null=True, blank=True)
     # You have to setup the media folder in settings 
@@ -36,12 +36,12 @@ class Booking(models.Model):
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
     date_created = models.DateField(auto_now_add=True)
     reservation = models.DateField()
-    comments = models.TextField()
+    comments = models.TextField(null=True, blank=True)
     def __str__(self):
         return ("%d: %s"%(self.id, self.customer))
 
 class Venue_Img(models.Model):
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField()
     def __str__(self):
         return "Venue Image ID:%d For Venue ID:%d Named: %s " %(self.id,self.venue.id,self.venue.name)

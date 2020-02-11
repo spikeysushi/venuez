@@ -34,12 +34,14 @@ def booking_create(request, venue_id):
     if not request.user.is_authenticated :
         return redirect('signin')
     venue = Venue.objects.get(id=venue_id)
+    profile = Profile.objects.get(user= request.user)
     form = BookingForm()
     if  request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.venue = venue
+            booking.customer = profile
             booking.save()
             return redirect('venue-detail', venue_id)
     context = {
@@ -84,7 +86,7 @@ def venue_create(request):
             venue = form.save(commit=False)
             venue.owner=profile
             venue.save()
-            return redirect('venue-list')
+            return redirect('venue-img', venue.id)
     context = {
         "form":form,
     }
@@ -117,8 +119,8 @@ def venue_update(request, venue_id):
     return render(request, 'update.html', context)
 
 def venue_delete(request, venue_id):
-    venue_obj = venue.objects.get(id=venue_id)
-    venue_obj.delete()
+    venue = Venue.objects.get(id=venue_id)
+    venue.delete()
     return redirect('venue-list')
 
 def venue_img_delete(request, image_id):
@@ -220,7 +222,7 @@ def signout(request):
 
 def home(request):
     context = {
-        "images":Venue_Img.objects.all(),
+        "images":Venue_Img.objects.all()[:3],
         "ratings": Rating.objects.all()[:3]
     }
     return render(request, "home.html",context)

@@ -1,44 +1,97 @@
 {% extends "base.html" %}
 {% block title %}Venue{% endblock title %}
 {% block content %}
-<br>
-<div class="container" style="margin-top: 150px;">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <h5 class="card-header">Personal Info</h5>
-                    {% if profile.profile_picture %}
-                    <img class="card-img-top" height="300px" src="{{profile.profile_picture.url}}" alt="...">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{profile.usertype}}</h5>
-                        <p class="card-text">Paci number: {{profile.paci_no}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            {% for venue in venues %}
-            <div class="card" style="width: 18rem;">
 
-                <div class="card-body">
-                    <p class="card-text">Description: {{venue.description}}</p>
-                    <p>Price: {{venue.price_per_day}}</p>
-                    <a href="{% url 'venue-detail' venue.id %}" class="btn btn-outline-success">View Details</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="row">
-            <div class="col">
-                <a href="{% url 'venue-create' %}" class="btn btn-success">
-                    Add New Venue
-                </a>
-            </div>
-        </div>
+<!--/ Intro Single star /-->
 
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-lg-12">
+                <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Your Profile
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
 
 
     </div>
-    {% endblock content %}
+</section>
+<!--/ Intro Single End /-->
+
+<section class="news-single nav-arrow-b">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center align-center">
+                <div class="news-img-box">
+                    <img src="{{profile.profile_picture.url}}" width="500px" alt="" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                <div class="post-information">
+                    <ul class="list-inline text-center color-a">
+                        <li class="list-inline-item mr-2">
+                            <strong>Name: </strong>
+                            <span class="color-text-a">{{user.first_name}} {{user.last_name}}</span>
+                        </li>
+                        <li class="list-inline-item mr-2">
+                            <strong>Paci Number: </strong>
+                            <span class="color-text-a">{{profile.paci_no}}</span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <h1>My Venuez</h1>
+            </div>
+            <div class="col text-right align-right">
+                <a href="{% url 'venue-create' %}" class="btn btn-a">Add New Venue</a>
+
+            </div>
+        </div>
+        <div class="mt-3">
+
+            {% for venue in venues %}
+
+            <div class="row border-bottom ">
+                <div class="col-9">
+                    <div class="title-single-box">
+                        <a href="{% url 'venue-detail' venue.id %}">
+                            <h2 class="title-single"> {{venue.name}} </h2>
+                        </a>
+                        <span class="color-text-a">{{venue.location}}.</span>
+                    </div>
+                    <div class="post-content color-text-a">
+                        <p class="" style="text-align:justify;">
+                            {{venue.description}}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-3 text-center align-center">
+                    <img src="{{venue.images.all.0.image.url}}" width="100px" height="100px">
+                </div>
+
+            </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+    </div>
+</section>
+{% endblock content %}

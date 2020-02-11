@@ -8,23 +8,59 @@
 
     <div class="row">
         {% for venue in venues %}
+
+
         <div class="col-md-4">
-            <div class="card my-card">
-                {% if venue.logo %}
-                <img class="card-img-top" src="{{venue.logo.url}}" alt="...">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{venue.name}}</h5>
-                    <p class="card-text">{{venue.description|truncatechars:25}}</p>
+            <div class="card-box-a card-shadow">
+                <div class="img-box-a">
+                    <img style="height: 232.75px; width:350px" src="{{venue.images.all.0.image.url}}" alt=""
+                        class="img-a img-fluid">
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-center">
-                        <a href="{% url 'venue-detail' venue.id %}" class="btn btn-outline-dark">View</a>
-                    </li>
-                </ul>
+                <div class=" card-overlay">
+                    <div class="card-overlay-a-content">
+                        <div class="card-header-a">
+                            <h2 class="card-title-a">
+                                <a href="{% url 'venue-detail' venue.id %}">{{venue.name}}</a>
+                            </h2>
+                        </div>
+                        <div class="card-body-a">
+                            <div class="price-box d-flex">
+                                <span class="price-a">{{venue.price_per_day}} KWD</span>
+                            </div>
+                            <a href="{% url 'venue-detail' venue.id %}" class="link-a">Click here to view
+                                <span class="ion-ios-arrow-forward"></span>
+                            </a>
+                        </div>
+                        <div class="card-footer-a">
+                            <ul class="card-info d-flex justify-content-around">
+                                <li>
+                                    <h4 class="card-info-title">Location</h4>
+                                    <span>{{venue.location}}
+                                        <sup></sup>
+                                    </span>
+                                </li>
+                                <li>
+                                    <h4 class="card-info-title">Capacity</h4>
+                                    <span>{{venue.capacity}}</span>
+                                </li>
+                                <li>
+                                    <h4 class="card-info-title">Availability</h4>
+                                    <span>{% if venue.availability %} Yes {% else %} No {% endif %}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
+
+</div>
+
+
+
+</div>
 </div>
 {% endblock content %}

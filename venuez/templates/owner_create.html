@@ -4,11 +4,19 @@
 {% block title %} owner {% endblock title %}
 
 {% block content %}
-<div class="container" style="margin-top: 150px;"></div>
-<form action="{% url 'owner-create' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form|crispy}}
-    <input type="submit" value="Create" class="btn btn-outline-success">
-</form>
+<div class="container" style="margin-top: 150px;">
+    <div class="card">
+        <h5 class="card-header"></h5>
+        <div class="card-body">
+            <p class="card-text">
+                <form action="{% url 'owner-create' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <input type="submit" value="Create" class="btn btn-outline-success">
+                </form>
+            </p>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

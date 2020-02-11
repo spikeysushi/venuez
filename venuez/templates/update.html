@@ -3,17 +3,17 @@
 {% block title %}Create Venue{% endblock title %}
 {% block content %}
 <br>
-<div class="container" style="margin-top: 85px;"></div>
-<div class="card">
-    <h5 class="card-header">Update Venue Info</h5>
-    <div class="card-body">
-        <p class="card-text">
-            <form action="{% url 'venue-update' venue_obj.id %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form|crispy}}
-                <input type="submit" value="Update" class="btn btn-outline-success">
-            </form>
-        </p>
+<div class="container" style="margin-top: 150px;">
+    <div class="card">
+        <h5 class="card-header">Update Venue Info</h5>
+        <div class="card-body">
+            <p class="card-text">
+                <form action="{% url 'venue-update' venue_obj.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <input type="submit" value="Update" class="btn btn-outline-success">
+                </form>
+            </p>
+        </div>
     </div>
-</div>
-{% endblock content %}
+    {% endblock content %}

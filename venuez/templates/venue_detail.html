@@ -54,10 +54,10 @@
                     <div class="property-price d-flex justify-content-center foo">
                         <div class="card-header-c d-flex">
                             <div class="card-box-ico">
-                                <span class="ion-money">KWD</span>
+                                <span class="ion-money">{{venue.price_per_day}}</span>
                             </div>
                             <div class="card-title-c align-self-center">
-                                <h5 class="title-c">{{venue.price_per_day}}</h5>
+                                <h5 class="title-c">KWD</h5>
                             </div>
                         </div>
                     </div>
@@ -140,26 +140,27 @@
                                     {% else %}
                                     No
                                     {% endif %} -->
-                        <a href="{% url 'booking-create' venue.id %}" class="btn btn-a">Book</a>
-                        {% if request.user.is_authenticated %}
-                        <a href="{% url 'rating-create' venue.id %}" class="btn btn-a">Rate
-                            Your
-                            Experience</a>
-                        {% endif %}
+                        <div class="row ">
+                            <div class="col-12 text-center align-center">
 
-                        <div class="row text-center">
-                            {% if venue.owner.user == request.user %}
-                            <div>
+                                <a href="{% url 'booking-create' venue.id %}" class="btn btn-a">Book</a>
+                                {% if request.user.is_authenticated %}
+                                <a href="{% url 'rating-create' venue.id %}" class="btn btn-a">Rate
+                                    Your
+                                    Experience</a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if venue.owner.user == request.user %}
+                        <div class="row mt-3">
+                            <div class="col text-center align-center">
                                 <a href="{% url 'venue-update' venue.id %}" class="btn btn-a">Update</a>
-                            </div>
-                            <div>
                                 <a href="{% url 'venue-delete' venue.id %}" class="btn btn-a">Delete</a>
-                            </div>
-                            <div>
                                 <a href="{% url 'venue-img' venue.id %}" class="btn btn-a">Edit Images</a>
                             </div>
-                            {% endif %}
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

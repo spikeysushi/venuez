@@ -4,17 +4,17 @@
 {% block content %}
 <br>
 <h1>Booking Creation</h1>
-<div class="container" style="margin-top: 40px;"></div>
-<div class="card">
-    <h5 class="card-header">Book Venue</h5>
-    <div class="card-body">
-        <p class="card-text">
-            <form action="{% url 'booking-create' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form|crispy}}
-                <input type="submit" value="Book" class="btn btn-outline-success">
-            </form>
-        </p>
+<div class="container" style="margin-top: 150px;">
+    <div class="card">
+        <h5 class="card-header">Booking</h5>
+        <div class="card-body">
+            <p class="card-text">
+                <form action="{% url 'booking-create' venue.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <input type="submit" value="Book" class="btn btn-outline-success">
+                </form>
+            </p>
+        </div>
     </div>
-</div>
-{% endblock content %}
+    {% endblock content %}
