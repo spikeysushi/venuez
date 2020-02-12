@@ -37,7 +37,6 @@ urlpatterns = [
     path('owner/profile/', views.profile_owner, name="owner-profile"),
     path('customer/create/', views.customer_create, name="customer-create"),
     path('customer/signup/', views.signup_customer, name="signup-customer"),
-    path('booking/<int:venue_id>/create/', views.booking_create, name="booking-create"),
     path('signin/', views.signin, name="signin"),
     path('rating/<int:venue_id>/create/', views.rating_create, name="rating-create"),
     path('customer/profile/', views.profile_customer, name="profile-customer"),
@@ -46,6 +45,8 @@ urlpatterns = [
     path('contact/', views.contact, name="contact"),
     path('about/', views.about, name="about"),
     path('image/<int:image_id>/delete/', views.venue_img_delete, name='venue-img-delete'),
+    path('booking/<int:booking_id>/delete/', views.booking_delete, name="booking-delete"),
+    path('booking/<int:booking_id>/update/', views.booking_update, name="booking-update")
     
     
 ]

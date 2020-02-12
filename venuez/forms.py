@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile, Venue, Booking, Venue_Img, Rating 
+from .models import Profile, Venue, Booking, Venue_Img, Rating, Contact
 from django.contrib.auth.models import User
 from django.contrib.admin import widgets
 
@@ -82,3 +82,55 @@ class UserRegister(forms.ModelForm):
 class SigninForm(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(required=True, widget=forms.PasswordInput())
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+
+        widgets = {
+            'email' : forms.EmailInput(   attrs={
+                'class':'form-control form-control-lg form-control-a',
+                'name':'email',
+                'type':'email',
+                'placeholder':'Your Email',
+                'data-rule':'email',
+                'data-msg':'Please enter a valid email'
+                
+
+            }),
+            'name': forms.TextInput(attrs = {
+                'class':'form-control form-control-lg form-control-a',
+                'placeholder':"Your Name",
+                'name':'name',
+                'type':'text',
+                'data-rule':"minlen:4" ,
+                'data-msg':"Please enter at least 4 chars"
+            }),
+            'subject': forms.TextInput( attrs = {
+                'class':'form-control form-control-lg form-control-a',
+                'name':'subject',
+                'type':'text',
+                'placeholder':'Subject',
+                'data-rule':'minlen:4',
+                'data-msg':'Please enter at least 8 chars of subject'
+            }),
+            'message': forms.TextInput( attrs = {
+                'class':'form-control',
+                'name':'message',
+                'type':'text',
+                'placeholder':'Message',
+                'data-rule':'required',
+                'data-msg':'Please write something for us'
+                
+            })
+
+        }
+
+       
+
+       
+
+        
+
+     

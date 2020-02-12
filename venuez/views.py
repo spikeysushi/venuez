@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Profile, Venue, Booking, Venue_Img, Rating 
-from .forms import OwnerProfileForm, CustomerProfileForm, VenueForm, BookingForm, Venue_ImgForm, RatingForm, UserRegister, SigninForm
+from .models import Profile, Venue, Booking, Venue_Img, Rating, Contact
+from .forms import OwnerProfileForm, CustomerProfileForm, VenueForm, BookingForm, Venue_ImgForm, RatingForm, UserRegister, SigninForm, ContactForm
 from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
@@ -49,6 +49,22 @@ def booking_create(request, venue_id):
         "venue":venue
     }
     return render(request, 'booking_create.html', context)
+
+def booking_update(request, booking_id):
+    if not request.user.is_authenticated :
+        return redirect('signin')
+    booking = Booking.objects.get(id=booking_id)
+    form = BookingForm(instance=booking)
+    if  request.method == "POST":
+        form = BookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    context = {
+        "form":form,
+        "booking":booking
+    }
+    return render(request, 'booking_update.html', context)
 
 def venue_img_create(request, venue_id):
     venue = Venue.objects.get(id=venue_id)
@@ -130,9 +146,9 @@ def venue_img_delete(request, image_id):
     return redirect('venue-detail', venue.id)
 
 def booking_delete(request, booking_id):
-    booking_obj = booking.objects.get(id=booking_id)
+    booking_obj = Booking.objects.get(id=booking_id)
     booking_obj.delete()
-    return redirect('booking-list')
+    return redirect('profile')
 
 def signup_owner(request):
     form = UserRegister()
@@ -222,7 +238,7 @@ def signout(request):
 
 def home(request):
     context = {
-        "images":Venue_Img.objects.all()[:3],
+        "images":Venue_Img.objects.all()[3:],
         "ratings": Rating.objects.all()[:3]
     }
     return render(request, "home.html",context)
@@ -242,12 +258,6 @@ def profile_customer(request):
     }
     return render(request, 'customer_profile.html', context)
 
-def contact(request):
-    context = {
-        "images":Venue_Img.objects.all(),
-        "ratings": Rating.objects.all()[:3]
-    }
-    return render(request, "contact.html",context)
 
 def about(request):
     context = {
@@ -255,6 +265,22 @@ def about(request):
         "ratings": Rating.objects.all()[:3]
     }
     return render(request, "about.html",context)
+
+def contact(request):
+    form = ContactForm()
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context={
+                "flag":True
+            }
+            return render(request, 'contact.html', context)
+    context = {
+        "flag": False,
+        "form":form,
+    }
+    return render(request, 'contact.html', context)
 
 # def venue_img_create(request, venue_id):
 #     venue = Venue.objects.get(id=venue_id)

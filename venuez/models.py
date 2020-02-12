@@ -32,8 +32,8 @@ class Venue(models.Model):
         return ("Venue ID:%d Owned By:%s"%(self.id, self.owner.user.username))
 
 class Booking(models.Model):
-    customer = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="bookings")
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, related_name="bookings")
     date_created = models.DateField(auto_now_add=True)
     reservation = models.DateField()
     comments = models.TextField(null=True, blank=True)
@@ -55,6 +55,14 @@ class Rating(models.Model):
 
     def __str__(self):
         return ("%d: %s"%(self.id, self.customer))
+
+class Contact(models.Model):
+    name = models.CharField(max_length=120)
+    email = models.CharField(max_length=120)
+    subject = models.CharField(max_length=120)
+    message= models.TextField()
+    def __str__(self):
+        return ("%d: %s"%(self.id, self.email))
 
     
 
